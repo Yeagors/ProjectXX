@@ -3,9 +3,9 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="7517ef9b-84ee-4379-b734-3ba6377719b2" name="root" url="http://185.87.199.47">
-        <fileTransfer rootFolder="/var/www/laravel/app/" accessType="SFTP" host="185.87.199.47" port="22" sshConfigId="479327ed-a75b-4849-9c32-bc979f2dad0f" sshConfig="developer@185.87.199.47:22 agent" authAgent="true">
+        <fileTransfer rootFolder="/var/www/laravel/" accessType="SFTP" host="185.87.199.47" port="22" sshConfigId="161b3618-e68d-4c62-ae06-4325da6a178c" sshConfig="developer@185.87.199.47:22 key" keyPair="true">
           <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" isUseSudo="true" />
           </advancedOptions>
         </fileTransfer>
       </webServer>
