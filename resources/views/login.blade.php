@@ -123,7 +123,7 @@
                 } else if(data === 404) {
                     alert('Пользователя с таким номером телефона не сущетсвует!')
                 } else {
-                    window.location.href = "{{ route('fp') }}";
+                    window.location.href = "{{ route('dashboard') }}";
                 }
 
             },

@@ -156,7 +156,7 @@
             data: pageData,
             success: function(data) {
                 if(data === 200) {
-                    window.location.href = '{{ route('showLoginForm') }}';
+                    window.location.href = '{{ route('login') }}';
                 } else {
                     if(data === 500) {
                         alert('Произошел технический сбой, повторите попытку позже!')
