@@ -1,48 +1,50 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Model;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Model
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    protected $table = 'users';
+    public $incrementing = false;
+
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
+     * @var mixed|string
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    public static function create($fields): int
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+        $items = [
+            'last_name',
+            'first_name',
+            'middle_name',
+            'bd',
+            'user_phone',
+            'role',
         ];
+        if(self::where('user_phone', $fields->phone)->exists()) return 401;
+        $user = new self();
+        $salt = '';
+        foreach ($items as $item) {
+            $user->$item = $fields->$item;
+            $salt .= $fields->$item;
+        }
+        $user->user_id = Requests::getUuid($salt);
+        $user->password = password_hash($fields->password, null);
+        if($user->save()) return 200;
+
+        return 500;
+    }
+
+    public static function validateAuth($request)
+    {
+        if($user = self::where('user_phone', $request->user_phone)->first()){
+            if(password_verify($request->password, $user->password)) return $user;
+            return 401;
+        }
+        return 404;
     }
 }
