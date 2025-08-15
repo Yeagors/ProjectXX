@@ -22,7 +22,15 @@ class User extends Authenticatable
         'phone',
         'password',
     ];
+    public function bids()
+    {
+        return $this->hasMany(Bid::class);
+    }
 
+    public function comments()
+    {
+        return $this->hasMany(Comments::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

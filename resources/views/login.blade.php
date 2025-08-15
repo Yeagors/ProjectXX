@@ -104,8 +104,28 @@
         </button>
     </p>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 </body>
 <script>
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
     document.getElementById('entry').addEventListener('click', function() {
         // Ваш существующий код отправки формы
         let pageData = $('#entryForm').serialize();
@@ -119,9 +139,9 @@
             data: pageData,
             success: function(data) {
                 if(data === 401) {
-                    alert('Неверный номер телефона или пароль!')
+                    toastr.error('Неверный номер телефона или пароль!', 'Ошибка!')
                 } else if(data === 404) {
-                    alert('Пользователя с таким номером телефона не сущетсвует!')
+                    toastr.error('Пользователя с таким номером телефона не сущетсвует!', 'Ошибка!')
                 } else {
                     window.location.href = "{{ route('dashboard') }}";
                 }

@@ -12,17 +12,22 @@ return new class extends Migration
     public function up() {
         if (!Schema::hasTable('users')) {
             Schema::create('users', function (Blueprint $table) {
-                $table->increments('id');
-                $table->uuid('user_id')->comment('Уникальный айди пользователя');
-                $table->string('first_name')->comment('Имя');
-                $table->string('last_name')->comment('Фамилия');
-                $table->string('middle_name')->nullable()->comment('Отчество');
-                $table->string('email')->comment('Почта');
-                $table->string('role')->comment('Роль');
-                $table->string('phone')->comment('Телефон');
-                $table->string('password')->comment('Пароль');
+                $table->uuid('id')->primary(); // Изменено на UUID как primary key
+                $table->string('first_name');
+                $table->string('last_name');
+                $table->string('middle_name')->nullable();
+                $table->string('email')->unique();
+                $table->string('role');
+                $table->string('phone');
+                $table->string('password');
+                $table->string('profile_photo_path')->nullable();
                 $table->timestamps();
             });
         }
+        Schema::table('users', function (Blueprint $table) {
+            if (!Schema::hasColumn('users', 'profile_photo_path')) {
+                $table->string('profile_photo_path')->nullable()->after('password')->comment('Ссылка где хранится аватар');
+            }
+        });
     }
 };

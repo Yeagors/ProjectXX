@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProfileController extends Controller
 {
@@ -56,5 +58,37 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+    public function uploadAvatar(Request $request)
+    {
+        // Временное сохранение файла (Dropzone требует ответ)
+        if ($request->hasFile('avatar')) {
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false], 400);
+    }
+
+    public function saveAvatar(Request $request)
+    {
+        $request->validate([
+            'avatar' => 'required|image|max:2048'
+        ]);
+
+        $user = Auth::user();
+
+        // Удаляем старый аватар, если он есть
+        if ($user->profile_photo_path) {
+            Storage::delete($user->profile_photo_path);
+        }
+
+        // Сохраняем новый аватар
+        $path = $request->file('avatar')->store('avatars', 'public');
+        $user->profile_photo_path = $path;
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'avatar_url' => asset('storage/' . $path)
+        ]);
     }
 }

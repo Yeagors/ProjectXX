@@ -70,7 +70,27 @@
         margin-top: 10px;
         color: #555;
     }
+    /* Стили для Toastr уведомлений */
+    .toast {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-size: 14px;
+    }
 
+    .toast-success {
+        background-color: #4CAF50;
+    }
+
+    .toast-error {
+        background-color: #F44336;
+    }
+
+    .toast-warning {
+        background-color: #FF9800;
+    }
+
+    .toast-info {
+        background-color: #2196F3;
+    }
     .login-link a {
         color: #4CAF50;
         text-decoration: none;
@@ -143,6 +163,7 @@
 </div>
 </body>
 <script>
+
     document.getElementById('submit').addEventListener('click', function() {
         // Ваш существующий код отправки формы
         let pageData = $('#regForm').serialize();
