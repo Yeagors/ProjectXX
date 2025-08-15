@@ -14,6 +14,27 @@
     <!-- Добавляем lightgallery для галереи -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/css/lightgallery.min.css">
     <style>
+        /* Стили для Toastr уведомлений */
+        .toast {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 14px;
+        }
+
+        .toast-success {
+            background-color: #4CAF50;
+        }
+
+        .toast-error {
+            background-color: #F44336;
+        }
+
+        .toast-warning {
+            background-color: #FF9800;
+        }
+
+        .toast-info {
+            background-color: #2196F3;
+        }
         .logo {
             font-size: 1.5rem;
             font-weight: bold;
@@ -58,27 +79,7 @@
             background-color: var(--bg-darker);
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
-        /* Стили для Toastr уведомлений */
-        .toast {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 14px;
-        }
 
-        .toast-success {
-            background-color: #4CAF50;
-        }
-
-        .toast-error {
-            background-color: #F44336;
-        }
-
-        .toast-warning {
-            background-color: #FF9800;
-        }
-
-        .toast-info {
-            background-color: #2196F3;
-        }
         .thumbnail {
             width: 50px;
             height: 50px;
@@ -328,7 +329,8 @@
         "showEasing": "swing",
         "hideEasing": "linear",
         "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
+        "hideMethod": "fadeOut",
+        "tapToDismiss": false
     };
     // Инициализация переменных
     let currentRequestId = null;
@@ -486,7 +488,8 @@
                 if (!data.success) {
                     throw new Error(data.message || 'Ошибка создания аукциона');
                 }
-                toastr.success('Аукцион успешно создан', 'Успешно!');
+                window.location.href = "{{ route('requests.complete') }}";
+
                 closeModal();
                 // Можно обновить страницу или обновить данные
                 // location.reload();

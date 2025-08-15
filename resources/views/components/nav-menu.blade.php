@@ -56,8 +56,6 @@
             <li><button onclick="requestsComplete()">Обработанные заявки</button></li>
         @endif
         <li><button onclick="navigateToAuction()">Аукцион</button></li>
-        <li><button onclick="navigateToInfo()">Информация</button></li>
-        <li><button onclick="navigateToBlog()">Блог</button></li>
         <li><button onclick="navigateToContacts()">Контакты</button></li>
         @auth
             <li>

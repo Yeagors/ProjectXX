@@ -960,25 +960,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
 <script>
+
     Dropzone.autoDiscover = false;
     // Конфигурация Toastr
-    toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": true,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    };
+
     // Массив для хранения загруженных файлов
     let uploadedPhotos = [];
     // Инициализация Select2
@@ -1383,7 +1368,7 @@
                             }
                         },
                         error: function(xhr) {
-                            atoastr.error('Ошибка при сохранении аватарки: ' + (xhr.responseJSON?.message || 'Неизвестная ошибка'), 'Ошибка');;
+                            toastr.error('Ошибка при сохранении аватарки: ' + (xhr.responseJSON?.message || 'Неизвестная ошибка'), 'Ошибка');;
                         }
                     });
                 });
