@@ -841,12 +841,12 @@
 
                             <div class="form-group">
                                 <label for="last_name">Фамилия</label>
-                                <input type="text" id="last_name" name="last_name" value="{{Auth::user()->last_name ?? ''}}" placeholder="Иванов" required>
+                                <input type="text" id="last_name" name="last_name" value="{{Auth::user()->first_name ?? ''}}" placeholder="Иванов" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="first_name">Имя</label>
-                                <input type="text" id="first_name" name="first_name" value="{{Auth::user()->first_name ?? ''}}" placeholder="Иван" required>
+                                <input type="text" id="first_name" name="first_name" value="{{Auth::user()->last_name ?? ''}}" placeholder="Иван" required>
                             </div>
 
                             <div class="form-group">

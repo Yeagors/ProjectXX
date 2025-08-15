@@ -46,13 +46,13 @@
 <nav class="nav-menu">
     <ul class="nav-buttons">
         <li><button onclick="navigateTo('fp')">Главная</button></li>
-        @if(in_array(Auth::user()->phone, ['+79817754640']))
+        @if(Auth::user() !== null && in_array(Auth::user()->phone, ['+79817754640', '+79992199737', '+79967867340']))
             <li><button onclick="requestsToAuction()">Заявки на осмотр</button></li>
         @endif
-        @if(in_array(Auth::user()->phone, ['+79817754640']))
+        @if(Auth::user() !== null && in_array(Auth::user()->phone, ['+79817754640', '+79992199737', '+79967867340']))
             <li><button onclick="requestsToReview()">Заявки в работе</button></li>
         @endif
-        @if(in_array(Auth::user()->phone, ['+79817754640']))
+        @if(Auth::user() !== null && in_array(Auth::user()->phone, ['+79817754640', '+79992199737', '+79967867340']))
             <li><button onclick="requestsComplete()">Обработанные заявки</button></li>
         @endif
         <li><button onclick="navigateToAuction()">Аукцион</button></li>

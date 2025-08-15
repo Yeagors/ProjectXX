@@ -14,6 +14,50 @@
     <!-- Добавляем lightgallery для галереи -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/css/lightgallery.min.css">
     <style>
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .nav-menu ul {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-menu a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-color);
+        }
+
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4fc3f7;
+            --text-light: #e0e0e0;
+            --text-dark: #121212;
+            --bg-dark: #121212;
+            --bg-darker: #0a0a0a;
+            --card-bg: #1e1e1e;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--bg-darker);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
         /* Стили для Toastr уведомлений */
         .toast {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -69,6 +113,10 @@
     </style>
 </head>
 <body class="bg-gray-100">
+<header>
+    <div class="logo">Выкуп авто</div>
+    @include('components.nav-menu')
+</header>
 <div class="container mx-auto px-4 py-8">
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
         <div class="p-6 border-b border-gray-200 bg-gray-50">
