@@ -46,6 +46,15 @@
 <nav class="nav-menu">
     <ul class="nav-buttons">
         <li><button onclick="navigateTo('fp')">Главная</button></li>
+        @if(in_array(Auth::user()->phone, ['+79817754640']))
+            <li><button onclick="requestsToAuction()">Заявки на осмотр</button></li>
+        @endif
+        @if(in_array(Auth::user()->phone, ['+79817754640']))
+            <li><button onclick="requestsToReview()">Заявки в работе</button></li>
+        @endif
+        @if(in_array(Auth::user()->phone, ['+79817754640']))
+            <li><button onclick="requestsComplete()">Обработанные заявки</button></li>
+        @endif
         <li><button onclick="navigateToAuction()">Аукцион</button></li>
         <li><button onclick="navigateToInfo()">Информация</button></li>
         <li><button onclick="navigateToBlog()">Блог</button></li>
@@ -75,9 +84,19 @@
         window.location.href = "{{ route('login') }}";
     }
 
+    function requestsToAuction() {
+        window.location.href = "{{ route('requests.auction') }}";
+    }
+    function requestsToReview() {
+        window.location.href = "{{ route('requests.review') }}";
+    }
+    function requestsComplete() {
+        window.location.href = "{{ route('requests.complete') }}";
+    }
+
     // Остальные функции навигации
     function navigateToAuction() {
-        // Логика для аукциона
+        window.location.href = "{{ route('auctions.index') }}";
     }
 
     function navigateToInfo() {

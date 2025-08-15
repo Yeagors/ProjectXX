@@ -121,9 +121,23 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/livewire/livewire" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jquery-3.6.0" level="application" />
+    <orderEntry type="library" name="dropzone" level="application" />
+    <orderEntry type="library" name="cropperjs" level="application" />
+    <orderEntry type="library" name="select2" level="application" />
+    <orderEntry type="library" name="tailwindcss" level="application" />
+    <orderEntry type="library" name="lightgallery" level="application" />
+    <orderEntry type="library" name="jspdf" level="application" />
+    <orderEntry type="library" name="jspdf-autotable" level="application" />
+    <orderEntry type="library" name="jspdf-customfonts" level="application" />
+    <orderEntry type="library" name="lg-fullscreen" level="application" />
+    <orderEntry type="library" name="lg-zoom" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="toastr.js" level="application" />
+    <orderEntry type="library" name="axios" level="application" />
   </component>
 </module>
