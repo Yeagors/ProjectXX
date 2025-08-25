@@ -25,7 +25,7 @@ return new class extends Migration {
                 $table->string('middle_name')->nullable()->comment('ФИО');
                 $table->string('last_name')->nullable()->comment('ФИО');
                 $table->string('status')->default('new')->comment('Статус');
-                $table->string('amount')->default('0')->comment('Оценка авто');
+                $table->integer('amount')->default('0')->comment('Оценка авто');
                 $table->string('data')->nullable()->comment('Результаты осмотра');
                 $table->timestamps();
             });

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('current_price', 12, 2);
             $table->decimal('current_bid', 12, 2)->nullable();
             $table->decimal('bid_step', 12, 2);
-            $table->decimal('service_fee', 5, 2); // Комиссия в процентах
+            $table->integer('service_fee'); // Комиссия в процентах
             $table->json('inspection_data')->nullable(); // Данные осмотра
             $table->string('status')->default('active'); // active, completed, canceled
             $table->timestamp('start_time')->useCurrent();

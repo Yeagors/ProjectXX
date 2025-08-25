@@ -115,14 +115,7 @@
         .nav-menu a:hover {
             color: var(--accent-color);
         }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            min-height: 100vh;
-        }
+
         :root {
             --primary-color: #4a6fa5;
             --secondary-color: #166088;
@@ -436,14 +429,14 @@
             })
         })
             .then(response => {
-                if (!response.ok) {
+                if (!response.success) {
                     throw new Error('Ошибка обновления статуса');
                 }
-                return response.json();
+                window.location.reload();
             })
             .then(data => {
                 toastr.success('Статус обновлен', 'Успешно!');
-                location.reload(); // Перезагружаем страницу для обновления данных
+                window.location.reload(); // Перезагружаем страницу для обновления данных
             })
             .catch(error => {
                 console.error('Ошибка:', error);

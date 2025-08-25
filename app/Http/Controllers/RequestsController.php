@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Auction;
+use DateTime;
 use Illuminate\Http\Request;
 use App\Models\Requests;
 use Ramsey\Uuid\Uuid;
@@ -16,6 +17,7 @@ class RequestsController extends Controller
     protected $request;
     protected $page_data;
     protected $response;
+    protected $api = 'd2b5ac1e-0e9c-4f61-b3b8-b1aa6eb99a74';
 
     public function __construct() {
         $this->request = request();
@@ -225,7 +227,7 @@ class RequestsController extends Controller
             'mileage' => 'required|integer|min:0|max:1000000',
             'startPrice' => 'required|numeric|min:1000|max:100000000',
             'bidStep' => 'required|numeric|min:100|max:100000',
-            'serviceFee' => 'required|numeric|min:0|max:50',
+            'serviceFee' => 'required|integer|min:0|max:50000',
             'data' => 'nullable|json',
         ]);
         try {
@@ -302,6 +304,7 @@ class RequestsController extends Controller
 
     public function calculate()
     {
+
         $request = $this->request->validate([
             'brand' => 'required|string',
             'model' => 'required|string',
@@ -310,11 +313,27 @@ class RequestsController extends Controller
             'license_plate' => 'required|string'
         ]);
 
-        // Ваша логика расчета
-        $estimate = rand(100000, 999999);
+        // Входные данные
+        $url = "https://data.tronk.info/avgcarprice.ashx";
+        $date_from = new DateTime("1970-1-1");
+        $date_to = new DateTime("1970-1-2");
+        $request_params = array(
+            "key" => $this->api,
+            "marka" => $this->request->brand,
+            "model" => $this->request->model,
+            "year" => $this->request->year,
+            "regionid" => 42
+        );
+
+        $get_params = http_build_query($request_params);
+
+        // Запрос к серверу
+        $response = file_get_contents($url."?".$get_params);
+        // Преобразование ответа
+        $result = json_decode($response);
 
         return response()->json([
-            'estimate' => number_format($estimate, 0, '', ' '),
+            'estimate' => round($result->result->minimalAverage, 0),
             'success' => true
         ]);
     }

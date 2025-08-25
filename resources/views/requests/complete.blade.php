@@ -282,8 +282,9 @@
             <h3 class="text-lg font-semibold mb-2">Параметры аукциона</h3>
             <div class="grid grid-cols-2 gap-4">
                 <div>
+
                     <label for="startPrice" class="block text-sm font-medium text-gray-700">Начальная цена (руб)</label>
-                    <input type="number" id="startPrice" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <input type="number" id="startPrice" value="{{$request->amount ?? 0 }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" >
                 </div>
                 <div>
                     <label for="mileage" class="block text-sm font-medium text-gray-700">Пробег (км)</label>
@@ -294,8 +295,31 @@
                     <input type="number" id="bidStep" value="1000" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 </div>
                 <div>
-                    <label for="serviceFee" class="block text-sm font-medium text-gray-700">Комиссия сервиса (%)</label>
-                    <input type="number" id="serviceFee" value="5" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <label for="serviceFee" class="block text-sm font-medium text-gray-700">Комиссия сервиса (руб)</label>
+                    @php
+                        $amount = $request->amount;
+                        $serviceFee = 50000;
+
+                        if ($amount <= 200000) {
+                            $serviceFee = 3000;
+                        } elseif ($amount <= 500000) {
+                            $serviceFee = 5000;
+                        } elseif ($amount <= 1000000) {
+                            $serviceFee = 15000;
+                        } elseif ($amount <= 2000000) {
+                            $serviceFee = 20000;
+                        } elseif ($amount <= 3000000) {
+                            $serviceFee = 25000;
+                        } elseif ($amount <= 4000000) {
+                            $serviceFee = 30000;
+                        } elseif ($amount <= 5000000) {
+                            $serviceFee = 35000;
+                        }
+                    @endphp
+
+                    <input type="number" id="serviceFee"
+                           value="{{ $serviceFee }}"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 </div>
             </div>
         </div>
@@ -314,6 +338,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script>
+    let price = parseFloat({{ $request->amount ?? 0 }});
     toastr.options = {
         "closeButton": true,
         "debug": false,
@@ -391,6 +416,7 @@
         document.getElementById('modalKpp').textContent = data.kpp === 'akpp' ? 'Автомат' : data.kpp === 'mkpp' ? 'Механика' : 'Не указано';
         document.getElementById('modalLicensePlate').textContent = data.license_plate || 'Не указан';
         document.getElementById('modalMileage').textContent = data.mileage ? data.mileage + ' км' : 'Не указан';
+        document.getElementById('startPrice').textContent = parseFloat(price);
 
         // Устанавливаем значение пробега по умолчанию
         document.getElementById('mileage').value = data.mileage || '';

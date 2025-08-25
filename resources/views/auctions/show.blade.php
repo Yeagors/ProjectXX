@@ -183,16 +183,17 @@
                         <li>Год: {{ $auction->year }}</li>
                         <li>Пробег: {{ number_format($auction->mileage, 0, '', ' ') }} км</li>
                         <li>КПП: {{ $auction->kpp == 'akpp' ? 'Автомат' : 'Механика' }}</li>
-                        <li>Двигатель: {{ $auction->engine }} л</li>
                     </ul>
                 </div>
-
+                @php
+                    $data = json_decode($auction->inspection_data);
+                @endphp
                 <div class="bg-gray-50 p-4 rounded">
                     <h3 class="font-medium text-gray-700">Состояние</h3>
                     <ul class="mt-2 space-y-2">
-                        <li>Кузов: {{ $auction->body_condition }}</li>
-                        <li>Двигатель: {{ $auction->engine_condition }}</li>
-                        <li>Трансмиссия: {{ $auction->transmission_condition }}</li>
+                        <li>Кузов: {{ $data->body_condition ? 'Удовлетворительно' : 'Неудовлетворительно' }}</li>
+                        <li>Двигатель: {{ $data->engine_condition ? 'Удовлетворительно' : 'Неудовлетворительно' }}</li>
+                        <li>Трансмиссия: {{ $data->transmission_condition ? 'Удовлетворительно' : 'Неудовлетворительно' }}</li>
                     </ul>
                 </div>
 

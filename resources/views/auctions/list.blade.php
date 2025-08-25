@@ -302,6 +302,7 @@
                                         const diffMs = endDate - now;
 
                                         if (diffMs <= 0) {
+
                                             timerElement.textContent = 'Аукцион завершен';
                                             return;
                                         }
