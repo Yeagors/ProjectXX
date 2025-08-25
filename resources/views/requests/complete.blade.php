@@ -35,6 +35,51 @@
         .toast-info {
             background-color: #2196F3;
         }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .nav-menu ul {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-menu a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-color);
+        }
+
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4fc3f7;
+            --text-light: #e0e0e0;
+            --text-dark: #121212;
+            --bg-dark: #121212;
+            --bg-darker: #0a0a0a;
+            --card-bg: #1e1e1e;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--bg-darker);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
         .thumbnail {
             width: 50px;
             height: 50px;
@@ -69,6 +114,10 @@
     </style>
 </head>
 <body class="bg-gray-100">
+<header>
+    <div class="logo">Выкуп авто</div>
+    @include('components.nav-menu')
+</header>
 <div class="container mx-auto px-4 py-8">
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
         <div class="p-6 border-b border-gray-200 bg-gray-50">
@@ -233,8 +282,9 @@
             <h3 class="text-lg font-semibold mb-2">Параметры аукциона</h3>
             <div class="grid grid-cols-2 gap-4">
                 <div>
+
                     <label for="startPrice" class="block text-sm font-medium text-gray-700">Начальная цена (руб)</label>
-                    <input type="number" id="startPrice" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <input type="number" id="startPrice" value="{{$request->amount ?? 0 }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" >
                 </div>
                 <div>
                     <label for="mileage" class="block text-sm font-medium text-gray-700">Пробег (км)</label>
@@ -245,8 +295,31 @@
                     <input type="number" id="bidStep" value="1000" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 </div>
                 <div>
-                    <label for="serviceFee" class="block text-sm font-medium text-gray-700">Комиссия сервиса (%)</label>
-                    <input type="number" id="serviceFee" value="5" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    <label for="serviceFee" class="block text-sm font-medium text-gray-700">Комиссия сервиса (руб)</label>
+                    @php
+                        $amount = $request->amount;
+                        $serviceFee = 50000;
+
+                        if ($amount <= 200000) {
+                            $serviceFee = 3000;
+                        } elseif ($amount <= 500000) {
+                            $serviceFee = 5000;
+                        } elseif ($amount <= 1000000) {
+                            $serviceFee = 15000;
+                        } elseif ($amount <= 2000000) {
+                            $serviceFee = 20000;
+                        } elseif ($amount <= 3000000) {
+                            $serviceFee = 25000;
+                        } elseif ($amount <= 4000000) {
+                            $serviceFee = 30000;
+                        } elseif ($amount <= 5000000) {
+                            $serviceFee = 35000;
+                        }
+                    @endphp
+
+                    <input type="number" id="serviceFee"
+                           value="{{ $serviceFee }}"
+                           class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 </div>
             </div>
         </div>
@@ -265,6 +338,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script>
+    let price = parseFloat({{ $request->amount ?? 0 }});
     toastr.options = {
         "closeButton": true,
         "debug": false,
@@ -280,7 +354,8 @@
         "showEasing": "swing",
         "hideEasing": "linear",
         "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
+        "hideMethod": "fadeOut",
+        "tapToDismiss": false
     };
     // Инициализация переменных
     let currentRequestId = null;
@@ -341,6 +416,7 @@
         document.getElementById('modalKpp').textContent = data.kpp === 'akpp' ? 'Автомат' : data.kpp === 'mkpp' ? 'Механика' : 'Не указано';
         document.getElementById('modalLicensePlate').textContent = data.license_plate || 'Не указан';
         document.getElementById('modalMileage').textContent = data.mileage ? data.mileage + ' км' : 'Не указан';
+        document.getElementById('startPrice').textContent = parseFloat(price);
 
         // Устанавливаем значение пробега по умолчанию
         document.getElementById('mileage').value = data.mileage || '';
@@ -438,7 +514,8 @@
                 if (!data.success) {
                     throw new Error(data.message || 'Ошибка создания аукциона');
                 }
-                toastr.success('Аукцион успешно создан', 'Успешно!');
+                window.location.href = "{{ route('requests.complete') }}";
+
                 closeModal();
                 // Можно обновить страницу или обновить данные
                 // location.reload();

@@ -279,7 +279,7 @@
                                 </svg>
                                 <span class="timer-value" data-end-date="{{ $auction->end_date }}">
                                     @php
-                                        $now = now();
+                                        $now = now()->timezone('Europe/Moscow')->format('d.m.Y H:i');
                                         $endDate = \Carbon\Carbon::parse($auction->end_date);
                                         $diff = $endDate->diff($now);
 
@@ -302,6 +302,7 @@
                                         const diffMs = endDate - now;
 
                                         if (diffMs <= 0) {
+
                                             timerElement.textContent = 'Аукцион завершен';
                                             return;
                                         }

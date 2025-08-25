@@ -104,19 +104,28 @@
             font-size: 1.5rem;
             font-weight: bold;
             color: var(--accent-color);
-            text-align: center;
             margin: 1.5rem 0;
             padding: 1rem;
             background-color: rgba(79, 195, 247, 0.1);
             border-radius: 8px;
             border: 1px dashed var(--accent-color);
+            order: 2; /* Оценка будет второй по порядку */
+            width: 100%;
+            text-align: center;
+        }
+        .buttons-column {
+            grid-column: span 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
         }
 
         .calculate-btn {
             display: block;
             width: 100%;
             max-width: 300px;
-            margin: 1rem auto 0;
             padding: 1rem;
             background-color: var(--accent-color);
             color: var(--text-dark);
@@ -126,6 +135,8 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
+            order: 1; /* Кнопка расчета будет первой */
+            margin: 0; /* Убираем предыдущие отступы */
         }
 
         .calculate-btn:hover {
@@ -470,14 +481,14 @@
         }
 
         .estimate-value {
-            font-size: 1.5rem;
+            font-size: 1rem;
             font-weight: bold;
             color: var(--accent-color);
             text-align: center;
             margin: 1.5rem 0;
             padding: 1rem;
             background-color: rgba(79, 195, 247, 0.1);
-            border-radius: 8px;
+            border-radius: 50px;
             border: 1px dashed var(--accent-color);
         }
 
@@ -841,12 +852,12 @@
 
                             <div class="form-group">
                                 <label for="last_name">Фамилия</label>
-                                <input type="text" id="last_name" name="last_name" value="{{Auth::user()->last_name ?? ''}}" placeholder="Иванов" required>
+                                <input type="text" id="last_name" name="last_name" value="{{Auth::user()->first_name ?? ''}}" placeholder="Иванов" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="first_name">Имя</label>
-                                <input type="text" id="first_name" name="first_name" value="{{Auth::user()->first_name ?? ''}}" placeholder="Иван" required>
+                                <input type="text" id="first_name" name="first_name" value="{{Auth::user()->last_name ?? ''}}" placeholder="Иван" required>
                             </div>
 
                             <div class="form-group">
@@ -865,10 +876,10 @@
                                     <div class="error-message" id="photos-error">Необходимо загрузить хотя бы одно фото</div>
                                 </div>
                             </div>
-                            <div class="buttons-row">
+                            <div class="buttons-column">
                                 <button type="button" class="calculate-btn" id="calculateBtn">Рассчитать</button>
                                 <div class="estimate-value" id="estimateValue">
-                                    <span id="estimate">Оценка вашего авто : ~</span> ₽
+                                    <span id="estimate">Оценка вашего авто : ~</span>
                                 </div>
                                 <button type="button" class="submit-btn" id="submitBtn">Отправить</button>
                             </div>
@@ -960,25 +971,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
 <script>
+
     Dropzone.autoDiscover = false;
     // Конфигурация Toastr
-    toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": true,
-        "progressBar": true,
-        "positionClass": "toast-top-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    };
+
     // Массив для хранения загруженных файлов
     let uploadedPhotos = [];
     // Инициализация Select2
@@ -1121,7 +1117,7 @@
                 if(data && data.estimate) {
                     est = data.estimate;
                     document.getElementById('estimateValue').style.display = 'block';
-                    document.getElementById('estimate').textContent = data.estimate;
+                    document.getElementById('estimate').textContent = 'Оценка вашего авто : ~' + data.estimate + ' ₽';
                     document.getElementById('submitBtn').style.display = 'block';
                     document.getElementById('calculateBtn').style.display = 'none';
                 } else {
@@ -1383,7 +1379,7 @@
                             }
                         },
                         error: function(xhr) {
-                            atoastr.error('Ошибка при сохранении аватарки: ' + (xhr.responseJSON?.message || 'Неизвестная ошибка'), 'Ошибка');;
+                            toastr.error('Ошибка при сохранении аватарки: ' + (xhr.responseJSON?.message || 'Неизвестная ошибка'), 'Ошибка');;
                         }
                     });
                 });

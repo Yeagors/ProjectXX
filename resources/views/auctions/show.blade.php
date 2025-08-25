@@ -39,9 +39,57 @@
             padding: 10px;
             color: white;
         }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .nav-menu ul {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-menu a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            padding: 0.5rem 0;
+        }
+
+        .nav-menu a:hover {
+            color: var(--accent-color);
+        }
+
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4fc3f7;
+            --text-light: #e0e0e0;
+            --text-dark: #121212;
+            --bg-dark: #121212;
+            --bg-darker: #0a0a0a;
+            --card-bg: #1e1e1e;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--bg-darker);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
     </style>
 </head>
 <body class="bg-gray-100">
+<header>
+    <div class="logo">Выкуп авто</div>
+    @include('components.nav-menu')
+</header>
 <div class="container mx-auto py-8 px-4">
     <div class="bg-white rounded-lg shadow-lg overflow-hidden">
         @php
@@ -135,16 +183,17 @@
                         <li>Год: {{ $auction->year }}</li>
                         <li>Пробег: {{ number_format($auction->mileage, 0, '', ' ') }} км</li>
                         <li>КПП: {{ $auction->kpp == 'akpp' ? 'Автомат' : 'Механика' }}</li>
-                        <li>Двигатель: {{ $auction->engine }} л</li>
                     </ul>
                 </div>
-
+                @php
+                    $data = json_decode($auction->inspection_data);
+                @endphp
                 <div class="bg-gray-50 p-4 rounded">
                     <h3 class="font-medium text-gray-700">Состояние</h3>
                     <ul class="mt-2 space-y-2">
-                        <li>Кузов: {{ $auction->body_condition }}</li>
-                        <li>Двигатель: {{ $auction->engine_condition }}</li>
-                        <li>Трансмиссия: {{ $auction->transmission_condition }}</li>
+                        <li>Кузов: {{ $data->body_condition ? 'Удовлетворительно' : 'Неудовлетворительно' }}</li>
+                        <li>Двигатель: {{ $data->engine_condition ? 'Удовлетворительно' : 'Неудовлетворительно' }}</li>
+                        <li>Трансмиссия: {{ $data->transmission_condition ? 'Удовлетворительно' : 'Неудовлетворительно' }}</li>
                     </ul>
                 </div>
 
@@ -308,6 +357,7 @@
                 this.content.value = '';
                 fetchComments();
                 toastr.success('Комментарий добавлен!', 'Успех!');
+                window.location.reload();
             })
             .catch(error => {
                 toastr.error('Ошибка при отправке комментария', 'Ошибка!');
